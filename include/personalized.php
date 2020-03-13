@@ -152,31 +152,31 @@ class MB_Personalized{
     }
 
     function print_data_add_to_cart( $item_data, $cart_item_data ) {
-        
-        $data = $cart_item_data[ 'pm_personalized' ];
+        if (isset($cart_item_data[ 'pm_personalized' ])) {
+            $data = $cart_item_data[ 'pm_personalized' ];
 
-        foreach ( $data as $key => $value )  {
-
-            if ( is_array( $value ) ) {
-                $data = implode( ', ', $value );
-                $item_data[ $keys ] = array(
-                                    'key' => __( $key),
-                                    'value' => wc_clean( $data ),
-                                    'display' => '',
-                );
+            foreach ( $data as $key => $value )  {
+    
+                if ( is_array( $value ) ) {
+                    $data = implode( ', ', $value );
+                    $item_data[ $keys ] = array(
+                                        'key' => __( $key),
+                                        'value' => wc_clean( $data ),
+                                        'display' => '',
+                    );
+                }
+    
+                else{
+    
+                    $item_data[$key] = array(
+                                        'key' => __( $key),
+                                        'value' => wc_clean( $value ),
+                                        'display' => '',
+                                    );
+                }
+                
             }
-
-            else{
-
-                $item_data[$key] = array(
-                                    'key' => __( $key),
-                                    'value' => wc_clean( $value ),
-                                    'display' => '',
-                                );
-            }
-            
         }
-
         return $item_data;
     }
     
