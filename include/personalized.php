@@ -6,11 +6,7 @@ class MB_Personalized{
     }
     function load(){
 
-        add_action('woocommerce_before_add_to_cart_button', array( $this, 'get_data_json' ));
-
-        add_action('woocommerce_product_options_general_product_data', array( $this, 'add_display_custom_field_back_end' ));
-
-        add_action('woocommerce_process_product_meta', array( $this, 'save_custom_field' ));
+        add_action('woocommerce_before_add_to_cart_button', array( $this, 'render_personalize_fields' ));
 
         add_filter( 'woocommerce_add_cart_item_data', array( $this, 'pin_data_add_to_cart' ), 10, 6 );
 
@@ -22,15 +18,22 @@ class MB_Personalized{
 
     }
 
-    function render_personalize_fields( $configs = array() ) {
-        if ( is_array( $configs ) && ! empty( $configs ) ) {
-            foreach ( $configs as $key => $value) {
+    function render_personalize_fields() {
+        
+        wp_enqueue_style( 'my-css', plugins_url('/style_01.css', __FILE__) );
+
+        //load content
+
+        $string1 = file_get_contents(__DIR__.'/data.json'); 
+        $json = json_decode($string1, true);
+        
+            foreach ( $json as $key => $value) {
                 ?>
-                <div style = "width:300px">
+                <div class="container">
                  <?php if ( $value['field_type'] === 'text'|| $value['field_type'] === 'number' ) { ?>
                         <div class = "<?php echo esc_attr( $value['title'] ) ?>">
                             <label for = ""><?php echo esc_html( $value['title'] ) ?></label>:<br>
-                            <input type = "<?php echo esc_attr( $value['field_type'] ) ?>"class = "<?php echo esc_attr( $value['field_name'] ) ?>" id = "<?php echo esc_attr( $value['field_name'] ) ?>" name = "pm_personalized[<?php echo esc_attr( $value['field_name'] ) ?>]" placeholder = "<?php echo esc_attr( $value['title'] ) ?>" style = "width:300px" <?php if(!empty( $value['configs']['settings']['min'] )||!empty( $value['configs']['settings']['max'] )){ $a = $value['configs']['settings']['min']; $b=$value['configs']['settings']['max'];echo "min= '$a'max= '$b'";}?>>
+                            <input type = "<?php echo esc_attr( $value['field_type'] ) ?>"class = "<?php echo esc_attr( $value['field_name'] ) ?>" id = "<?php echo esc_attr( $value['field_name'] ) ?>" name = "pm_personalized[<?php echo esc_attr( $value['field_name'] ) ?>]" placeholder = "<?php echo esc_attr( $value['title'] ) ?>" <?php if(!empty( $value['configs']['settings']['min'] )||!empty( $value['configs']['settings']['max'] )){ $a = $value['configs']['settings']['min']; $b=$value['configs']['settings']['max'];echo "min= '$a'max= '$b'";}?>>
                         </div>
                         <br>
                 <?php } elseif( $value['field_type'] === 'textarea' ){ ?>
@@ -52,23 +55,24 @@ class MB_Personalized{
                     </div>
                     <br>
                 <?php } elseif( $value['field_type'] === 'radio' ){ ?>
-                    <div class = "<?php echo esc_attr( $value['title'] ) ?>" style = "text-align:justify">
+                    <div class = "<?php echo esc_attr( $value['title'] ) ?>">
                         <label for = ""><?php echo esc_html( $value['title'] ) ?></label>:<br>
-                        <div>
-                            <?php foreach( $value['configs']['settings']['options'] as $key => $val){
-                                ?>
-                                <input type = "<?php echo esc_attr( $value['field_type'] ) ?>"class = "<?php echo esc_attr( $value['field_name'] ) ?>" id = "<?php echo esc_attr( $value['field_name'] ) ?>" name = "pm_personalized[<?php echo esc_attr( $value['field_name'] ) ?>]" placeholder = "<?php echo esc_attr( $value['title'] ) ?>" <?php if( $val=== 'Orange' ){ echo 'checked = checked';}?> value = "<?php echo esc_attr( $val) ?>">
-                                <span><?php echo esc_html( $val) ?></span>
+                        <ul id="checkbox">
+                         <?php foreach ( $value['configs']['settings']['options'] as $key => $val){?>
+                            <li>
+                                    <input type="radio" id="<?php echo esc_attr( $value['field_name'] ) ?>_<?php echo esc_attr($val); ?>" value="<?php echo esc_attr($val); ?>" name="pm_personalized[<?php echo esc_attr( $value['field_name'] );?>]"/>
+                                    <label for="<?php echo esc_attr( $value['field_name'] ) ?>_<?php echo esc_attr($val); ?>" class="label"><img src='http://localhost/wordpress/wp-content/uploads/2020/02/Screen-Shot-2019-12-09-at-23.29.45.png' class='<?php echo esc_attr( $value['field_name'] ) ?>'/></label>
+                            </li>    
                             <?php
-                            }
+                            } 
                            ?>
-                        </div>
+                        </ul>
                     </div>
                     <br>
                 <?php } else { ?>
                     <div class = "<?php echo esc_attr( $value['title'] ) ?>">
                         <label for = ""><?php echo esc_html( $value['title'] ) ?></label>:<br>
-                        <select name = "pm_personalized[<?php echo esc_attr( $value['field_name'] ) ?>]" style = "width:300px">
+                        <select name = "pm_personalized[<?php echo esc_attr( $value['field_name'] ) ?>]">
                             <?php foreach( $value['configs']['settings']['options'] as $key => $val){
                                 ?>
                                   <br>
@@ -83,62 +87,30 @@ class MB_Personalized{
             <br>
             <?php
             }
-        }
-    }
-    function get_data_json() {
-        global $product;
-
-        if ( is_object( $product ) && method_exists( $product, 'get_id' ) ) {
-            $product_id = $product->get_id();
-            if ( is_numeric( $product_id ) && $product_id > 0 ) {
-                $personalized_configs = get_post_meta( $product_id, '_mb_personalized_configs', true );
-
-                $this->render_personalize_fields( $personalized_configs );
-            }
-        }
-    }
-
-    function add_display_custom_field_back_end() {
-
-        $arg = array(
-            'id' => 'custom-field-title',
-            'label' => __( 'Custom Text Field Title', 'cfwc' ),
-            'class' => 'custom-field-title',
-            'desc_tip' => true,
-            'description' => __( 'Enter the title of your custom text field.', 'ctwc' ),
-        );
-
-        woocommerce_wp_text_input( $arg );
-    }
-
-    function save_custom_field( $post_id ) {
-
-        $product = wc_get_product( $post_id );
-        $title = isset( $_POST[ 'custom-field-title' ] ) ? $_POST[ 'custom-field-title' ] : '';
-        $product->update_meta_data( 'custom-field-title', sanitize_text_field( $title ) );
-        $product->save();
-
     }
 
     function validate_form_custom( $passed, $product_id, $quantity ) {
-    
-        $data = $_POST[ 'pm_personalized' ];
-
-        foreach ( $data as $key => $value ) {
-            if( !is_array( $value ) && empty( $value ) )
-            {
-               
-                $passed = false;
-                wc_add_notice( __( 'Please enter a value into the '.$key.'', 'cfwc' ), 'error' );
-
-            } elseif ( 32 <= strlen( ( string )$value ) )
-            {
-                
-                $passed = false;
-                wc_add_notice( __( 'Max a value into the '.$key.' is 32.', 'cfwc' ), 'error' );
-            }
+        if(isset($_POST[ 'pm_personalized' ])){
             
+            $data = $_POST[ 'pm_personalized' ];
+
+            foreach ( $data as $key => $value ) {
+                if( !is_array( $value ) && empty( $value ) )
+                {
+                   
+                    $passed = false;
+                    wc_add_notice( __( 'Please enter a value into the '.$key.'', 'cfwc' ), 'error' );
+    
+                } elseif ( 32 <= strlen( ( string )$value ) )
+                {
+                    
+                    $passed = false;
+                    wc_add_notice( __( 'Max a value into the '.$key.' is 32.', 'cfwc' ), 'error' );
+                }
+                
+            }
         }
+        
         return $passed;
     }
 
@@ -147,7 +119,6 @@ class MB_Personalized{
         foreach( $_POST as $key => $value ){
             $cart_item_data[ $key ] = $value;
         }
-       
         return $cart_item_data;
     }
 

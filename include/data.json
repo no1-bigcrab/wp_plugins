@@ -1,176 +1,99 @@
 [
    {
+      "title":"Bun \u0026 Tie Style",
+      "field_type":"radio",
+      "field_name":"bun-tie-style",
+      "configs":{
+         "description":null,
+         "errorMessage":null,
+         "placeholder":"",
+         "required":false,
+         "settings":{
+            "defaultValue":"Orange",
+            "options":[
+               "Style 1",
+               "Style 2",
+               "Style 3"]
+      },
+      "visibility":{
+         "enabled":true,
+         "match":"all",
+         "rules":[{
+            "field":"your-hair-style",
+            "operator":"equal",
+            "value":"bun-and-tie"
+         }],
+         "type":"show"
+   }}},
+   {
       "title":"Your Name",
       "field_type":"text",
       "field_name":"your-name",
       "configs":{
-         "required":true,
-         "settings":{
-            "defaultValue":""
-         },
-         "visibility":[
-            {
-               "type":"show",
-               "match":"all",
-               "rules":[
-
-               ],
-               "enabled":false
-            }
-         ],
-         "description":"",
+         "description":null,
+         "errorMessage":null,
          "placeholder":"",
-         "errorMessage":""
-      }
-   },
-   {
-      "title":"Your Quotes",
-      "field_type":"textarea",
-      "field_name":"your-quotes",
-      "configs":{
-         "required":true,
-         "settings":{
-            "defaultValue":""
-         },
-         "visibility":[
-            {
-               "type":"show",
-               "match":"all",
-               "rules":[
-
-               ],
-               "enabled":false
-            }
-         ],
-         "description":"",
-         "placeholder":"",
-         "errorMessage":""
-      }
-   },
-   {
-      "title":"Your Number",
-      "field_type":"number",
-      "field_name":"your-number",
-      "configs":{
          "required":false,
          "settings":{
-            "max":10,
-            "min":1
-         },
-         "visibility":[
-            {
-               "type":"show",
-               "match":"all",
-               "rules":[
-
-               ],
-               "enabled":false
-            }
-         ],
-         "description":"",
-         "placeholder":"",
-         "errorMessage":""
-      }
-   },
+            "defaultValue":null
+            },
+         "visibility":{
+            "enabled":false,
+            "match":"all",
+            "rules":[],
+            "type":"show"
+   }}},
    {
-      "title":"Your Checkbox",
-      "field_type":"checkbox",
-      "field_name":"your-checkbox",
-      "configs":{
-         "required":false,
-         "settings":{
-            "options":[
-               "Apple",
-               "Orange",
-               "Mango"
-            ],
-            "defaultValue":"Orange"
-         },
-         "visibility":[
-            {
-               "type":"show",
-               "match":"all",
-               "rules":[
-
-               ],
-               "enabled":false
-            }
-         ],
-         "description":"",
-         "placeholder":"",
-         "errorMessage":""
-      }
-   },
-   {
-      "title":"Your radio",
+      "title":"Mid Back Style",
       "field_type":"radio",
-      "field_name":"your-radio",
+      "field_name":"area-4",
       "configs":{
-         "required":false,
-         "settings":{
-            "options":[
-               "Apple",
-               "Orange",
-               "Mango"
-            ],
-            "defaultValue":"Orange"
-         },
-         "visibility":[
-            {
-               "type":"show",
-               "match":"all",
-               "rules":[
-
-               ],
-               "enabled":false
-            }
-         ],
-         "description":"",
+         "description":null,
+         "errorMessage":null,
          "placeholder":"",
-         "errorMessage":""
-      }
-   },
-   {
-      "title":"Your dropdown",
-      "field_type":"dropdown",
-      "field_name":"your-dropdown",
-      "configs":{
          "required":false,
          "settings":{
+            "defaultValue":"Orange",
+            "options":["Style 1","Style 2","Style 3"]},
+            "visibility":{
+               "enabled":true,
+               "match":"all",
+               "rules":[{
+                  "field":"your-hair-style",
+                  "operator":"equal",
+                  "value":"mid-back"}],
+                  "type":"show"
+   }}},
+   {
+      "title":"Your Hair Style",
+      "field_type":"dropdown",
+      "field_name":"your-hair-style",
+      "configs":{
+         "description":null,
+         "errorMessage":null,
+         "placeholder":"",
+         "required":false,
+         "settings":{
+            "defaultValue":"Apple",
             "mode":"default",
             "options":[
                {
-                  "label":"Apple",
-                  "value":"Apple"
+                  "label":"New Hair Style",
+                  "value":"new-hair-style"
                },
                {
-                  "label":"Orange",
-                  "value":"Orange"
+                  "label":"Bun \u0026 Tie",
+                  "value":"bun-and-tie"
                },
                {
-                  "label":"Mango",
-                  "value":"Mango"
-               }
-            ],
-            "defaultValue":"Apple"
-         },
-         "visibility":[
-            {
-               "type":"hide",
-               "match":"any",
-               "rules":[
-                  {
-                     "field":"your-radio",
-                     "value":"Apple",
-                     "operator":"equal"
-                  }
-               ],
-               "enabled":false
-            }
-         ],
-         "description":"",
-         "placeholder":"",
-         "errorMessage":""
-      }
-   }
+                  "key":"key-3",
+                  "label":"Mid Back",
+                  "value":"mid-back"
+               }]},
+            "visibility":{
+               "enabled":false,
+               "match":"all",
+               "rules":[],
+               "type":"show"
+    }}}
 ]
