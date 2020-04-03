@@ -60,7 +60,10 @@ class MB_Personalized{
                         <ul id="checkbox">
                          <?php foreach ( $value['configs']['settings']['options'] as $key => $val){?>
                             <li>
-                                    <input type="radio" id="<?php echo esc_attr( $value['field_name'] ) ?>_<?php echo esc_attr($val); ?>" value="<?php echo esc_attr($val); ?>" name="pm_personalized[<?php echo esc_attr( $value['field_name'] );?>]"/>
+
+                            <!-- <div>hihihi</div>  là đoạn này đó a ơi ( đoạn này e thử check giá trị của type = show hay hidden)-->
+                            
+                                    <input type="<?php ($value['configs']['settings']['visibility']['type'] == 'show') ? 'radio' : 'hidden' ?>" id="<?php echo esc_attr( $value['field_name'] ) ?>_<?php echo esc_attr($val); ?>" value="<?php echo esc_attr($val); ?>" name="pm_personalized[<?php echo esc_attr( $value['field_name'] );?>]"/>
                                     <label for="<?php echo esc_attr( $value['field_name'] ) ?>_<?php echo esc_attr($val); ?>" class="label"><img src='http://localhost/wordpress/wp-content/uploads/2020/02/Screen-Shot-2019-12-09-at-23.29.45.png' class='<?php echo esc_attr( $value['field_name'] ) ?>'/></label>
                             </li>    
                             <?php
