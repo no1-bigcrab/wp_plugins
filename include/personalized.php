@@ -30,19 +30,19 @@ class MB_Personalized{
             foreach ( $json as $key => $value) {
                 ?>
                 <div class="container">
-                 <?php if ( $value['field_type'] === 'text'|| $value['field_type'] === 'number' ) { ?>
+                 <?php if ( ($value['field_type'] === 'text'|| $value['field_type'] === 'number') && ($value['configs']['visibility']['type']) == 'show') { ?>
                         <div class = "<?php echo esc_attr( $value['title'] ) ?>">
                             <label for = ""><?php echo esc_html( $value['title'] ) ?></label>:<br>
                             <input type = "<?php echo esc_attr( $value['field_type'] ) ?>"class = "<?php echo esc_attr( $value['field_name'] ) ?>" id = "<?php echo esc_attr( $value['field_name'] ) ?>" name = "pm_personalized[<?php echo esc_attr( $value['field_name'] ) ?>]" placeholder = "<?php echo esc_attr( $value['title'] ) ?>" <?php if(!empty( $value['configs']['settings']['min'] )||!empty( $value['configs']['settings']['max'] )){ $a = $value['configs']['settings']['min']; $b=$value['configs']['settings']['max'];echo "min= '$a'max= '$b'";}?>>
                         </div>
                         <br>
-                <?php } elseif( $value['field_type'] === 'textarea' ){ ?>
+                <?php } elseif( $value['field_type'] === 'textarea' && ($value['configs']['visibility']['type']) == 'show'){ ?>
                     <div class = "<?php echo esc_attr( $value['title'] ) ?>">
                         <label for = ""><?php echo esc_html( $value['title'] ) ?></label>:<br>
                         <textarea class = "<?php echo esc_attr( $value['field_name'] ) ?>" id = "<?php echo esc_attr( $value['field_name'] ) ?>" name = "pm_personalized[<?php echo esc_attr( $value['field_name'] ) ?>]"></textarea>
                     </div>
                     <br>
-                <?php } elseif( $value['field_type'] === 'checkbox' ){ ?>
+                <?php } elseif( $value['field_type'] === 'checkbox' && ($value['configs']['visibility']['type']) == 'show'){ ?>
                     <div class = "<?php echo esc_attr( $value['title'] ) ?>" style = "text-align:justify">
                     <label for = ""><?php echo esc_html( $value['title'] ) ?></label>:<br>
                     <?php foreach( $value['configs']['settings']['options'] as $key => $val){
@@ -54,16 +54,17 @@ class MB_Personalized{
                     ?>
                     </div>
                     <br>
-                <?php } elseif( $value['field_type'] === 'radio' ){ ?>
+                <?php } elseif( $value['field_type'] === 'radio' && ($value['configs']['visibility']['type']) == 'show' ){ ?>
                     <div class = "<?php echo esc_attr( $value['title'] ) ?>">
                         <label for = ""><?php echo esc_html( $value['title'] ) ?></label>:<br>
                         <ul id="checkbox">
+                        <li>
+                                    <input type="radio" id="<?php echo esc_attr( $value['field_name'] ) ?>" value="<?php echo esc_attr($value['configs']['settings']['defaultValue']); ?>" name="pm_personalized[<?php echo esc_attr( $value['field_name'] );?>]" checked/>
+                                    <label for="<?php echo esc_attr( $value['field_name'] ) ?>" class="label"><img src='http://localhost/wordpress/wp-content/uploads/2020/02/Screen-Shot-2019-12-09-at-23.29.45.png' class='<?php echo esc_attr( $value['field_name'] ) ?>'/></label>
+                            </li>
                          <?php foreach ( $value['configs']['settings']['options'] as $key => $val){?>
                             <li>
-
-                            <!-- <div>hihihi</div>  là đoạn này đó a ơi ( đoạn này e thử check giá trị của type = show hay hidden)-->
-                            
-                                    <input type="<?php ($value['configs']['settings']['visibility']['type'] == 'show') ? 'radio' : 'hidden' ?>" id="<?php echo esc_attr( $value['field_name'] ) ?>_<?php echo esc_attr($val); ?>" value="<?php echo esc_attr($val); ?>" name="pm_personalized[<?php echo esc_attr( $value['field_name'] );?>]"/>
+                                    <input type="radio" id="<?php echo esc_attr( $value['field_name'] ) ?>_<?php echo esc_attr($val); ?>" value="<?php echo esc_attr($val); ?>" name="pm_personalized[<?php echo esc_attr( $value['field_name'] );?>]"/>
                                     <label for="<?php echo esc_attr( $value['field_name'] ) ?>_<?php echo esc_attr($val); ?>" class="label"><img src='http://localhost/wordpress/wp-content/uploads/2020/02/Screen-Shot-2019-12-09-at-23.29.45.png' class='<?php echo esc_attr( $value['field_name'] ) ?>'/></label>
                             </li>    
                             <?php
@@ -72,7 +73,7 @@ class MB_Personalized{
                         </ul>
                     </div>
                     <br>
-                <?php } else { ?>
+                <?php } else if( ($value['configs']['visibility']['type']) == 'show' ) { ?>
                     <div class = "<?php echo esc_attr( $value['title'] ) ?>">
                         <label for = ""><?php echo esc_html( $value['title'] ) ?></label>:<br>
                         <select name = "pm_personalized[<?php echo esc_attr( $value['field_name'] ) ?>]">
@@ -122,6 +123,7 @@ class MB_Personalized{
         foreach( $_POST as $key => $value ){
             $cart_item_data[ $key ] = $value;
         }
+        //var_dump($cart_item_data);
         return $cart_item_data;
     }
 

@@ -1,80 +1,83 @@
 select, input[type=text]{
-    padding: 5px 10px;
-    width: 500px;
-    border: 1px solid #000;
-    box-shadow: none;
-    background: transparent;
-    background-image: none;
-    -webkit-appearance: none;
-    height: 50px;
-    margin: 0 20px;
+  padding: 5px 10px;
+  width: 90%;
+  border: 1px solid #000;
+  box-shadow: none;
+  background: transparent;
+  background-image: none;
+  -webkit-appearance: none;
+  height: 50px;
+  margin: 0 50px;
 }
 .bun-tie-style, .area-4{
-    width: 100px;
-    display: inline;
+  width: 100px;
+  display: inline;
 }
 #checkbox {
-    list-style-type: none;
-  }
-  
-  #checkbox li {
-    display: inline-block;
-  }
-  
-  #checkbox input[type="radio"]{
-    display: none;
-  }
-  
-  .label {
-    border: 1px solid #000;
-    padding: 10px;
-    display: block;
-    position: relative;
-    cursor: pointer;
-    height: 120px;
-    width: 130px;
-    text-align: center;
-  }
-  
-  .label:before {
-    background-color: red;
-    color: white;
-    content: " ";
-    display: block;
-    border-radius: 50%;
-    border: 1px solid red;
-    position: absolute;
-    top: -5px;
-    left: -5px;
-    width: 25px;
-    height: 25px;
-    text-align: center;
-    line-height: 28px;
-    transition-duration: 0.4s;
-    transform: scale(0);
-  }
-  
-  .label img {
-    height: 100px;
-    width: 100px;
-    transition-duration: 0.2s;
-    transform-origin: 50% 50%;
-  }
-  
-  :checked + .label {
-    border-color: red;
-    border: 1px solid red;
-  
-  }
-  
-  :checked + .label:before {
-    content: "✓";
-    background-color: red;
-    transform: scale(1);
-  }
-  
-  /* :checked + .label img {
-    transform: scale(0.9);
-    box-shadow: 0 0 5px #333; 
-    z-index: -1;
-  } */
+  list-style-type: none;
+  text-align: left;
+
+}
+
+#checkbox li {
+  display: inline-block;
+}
+
+#checkbox input[type="radio"]{
+  display: none;
+}
+
+.label {
+
+  border: 1px solid #000;
+  padding: 10px;
+  display: block;
+  position: relative;
+  cursor: pointer;
+  height: 120px;
+  width: 100%;
+  text-align: center;
+}
+
+.label:before {
+  background-color: red;
+  color: white;
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  border: 1px solid red;
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  line-height: 28px;
+  transition-duration: 0.4s;
+  transform: scale(0);
+}
+
+.label img {
+  height: 100px;
+  width: 100px;
+  transition-duration: 0.2s;
+  transform-origin: 50% 50%;
+}
+
+:checked + .label {
+  border-color: red;
+  border: 1px solid red;
+
+}
+
+:checked + .label:before {
+  content: "✓";
+  background-color: red;
+  transform: scale(1);
+}
+
+/* :checked + .label img {
+  transform: scale(0.9);
+  box-shadow: 0 0 5px #333; 
+  z-index: -1;
+} */
